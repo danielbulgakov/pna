@@ -2,13 +2,16 @@ SOURCE_DIR = './src'
 BUILD_DIR = './build'
 
 import os
+import platform
 
 env = Environment(ENV=os.environ)
 
-if env['PLATFORM'] == 'win32':
-    env.Append(CCFLAGS=['/openmp'])
-else:
-    env.Append(CCFLAGS=['-fopenmp'], LINKFLAGS=['-fopenmp'])
+if platform.system() == 'Windows':
+    env.Append(CCFLAGS=['/openmp', '/EHsc'])
+    env.Append(LINKFLAGS=['/SUBSYSTEM:CONSOLE'])
+else: # For Linux
+    env.Append(CCFLAGS=['-fopenmp'])
+    env.Append(LINKFLAGS=['-fopenmp'])
 
 SConscript(
     f'{SOURCE_DIR}/SConscript',
