@@ -12,3 +12,5 @@
 #### Useful links
 
 [Softgrader](http://softgrader.itmm.unn.ru/ "Site to check lab correctness")
+
+[Параллельные численные методы](http://www.hpcc.unn.ru/?doc=491 "Учебный курс")
