@@ -1,0 +1,14 @@
+Import('env')
+
+sources = Glob('*.cpp')
+
+# Compile all cpp files in src directory
+for src in sources:
+    target = src.name.rsplit('.', 1)[0]
+    if env['PLATFORM'] == 'win32':
+        target += '.exe'
+    
+    env.Program(
+        target=target,
+        source=src
+    )
