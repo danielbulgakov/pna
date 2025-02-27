@@ -1,0 +1,69 @@
+name: SoftGrader Validation
+
+on:
+  push:
+    paths:
+      - 'src/*.cpp'
+  pull_request:
+    paths:
+      - 'src/*.cpp'
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    timeout-minutes: 5
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Check for C++ files
+      id: check_files
+      run: |
+        $count = (Get-ChildItem -Path src -Filter *.cpp -Recurse).Count
+        if ($count -eq 0) {
+          Write-Output "::set-output name=has_files::false"
+          exit 0
+        }
+        Write-Output "::set-output name=has_files::true"
+      shell: pwsh
+
+    - name: Setup MSVC
+      if: steps.check_files.outputs.has_files == 'true'
+      uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: x64
+
+    - name: Validate files
+      if: steps.check_files.outputs.has_files == 'true'
+      run: |
+        foreach ($file in Get-ChildItem -Path src -Filter *.cpp -Recurse) {
+          # Проверка размера файла
+          if ($file.Length -gt 64KB) {
+            Write-Output "::error file=$($file.FullName)::File exceeds 64KB limit ($($file.Length) bytes)"
+            exit 1
+          }
+
+          # Проверка запрещенных конструкций
+          if ($content -match '__asm|cout|printf|f(open|write)|\.asmx?') {
+            Write-Output "::error file=$($file.FullName)::Contains prohibited constructs"
+            exit 1
+          }
+        }
+
+    - name: Build with SCons
+      if: steps.check_files.outputs.has_files == 'true'
+      run: |
+        python -m pip install scons
+        mkdir build
+        scons -Q --debug=stacktrace
+        if (-not $?) { exit 1 }
+
+    - name: Run tests
+      if: steps.check_files.outputs.has_files == 'true'
+      run: |
+        foreach ($exe in Get-ChildItem -Path build -Filter *.exe) {
+          Write-Output "Testing $($exe.Name)"
+          & $exe.FullName test
+          if (-not $?) { exit 1 }
+        }
