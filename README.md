@@ -1,3 +1,4 @@
+[![SoftGrader Validation](https://github.com/danielbulgakov/pna/actions/workflows/SoftGraderValidation.yml/badge.svg?branch=master&event=push)](https://github.com/danielbulgakov/pna/actions/workflows/SoftGraderValidation.yml)
 ### Repository for all Parallel Numeric Algorithms labs
 
 #### To build a project (scons)
