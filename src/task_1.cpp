@@ -1,4 +1,7 @@
+#include <iostream>
+#include <vector>
 #include <cmath>
+#include <chrono>
 #include <omp.h>
 
 void Cholesky_Decomposition(double* A, double* L, int n) {
@@ -35,5 +38,41 @@ void Cholesky_Decomposition(double* A, double* L, int n) {
                 L[i * n + j] = (A[i * n + j] - sum) / L[j * n + j];
             }
         }
-    }   
+    }
+}
+
+void TestCholesky(int n) {
+    // Создаем случайную положительно определенную матрицу
+    std::vector<double> A(n * n);
+    for (int i = 0; i < n * n; ++i) {
+        A[i] = (rand() % 100) + 1.0;
+    }
+
+    // Копируем матрицу для разложения
+    std::vector<double> L(n * n);
+    
+    // Измеряем время
+    auto start = std::chrono::high_resolution_clock::now();
+    Cholesky_Decomposition(A.data(), L.data(), n);
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double> duration = end - start;
+
+    std::cout << "Matrix size: " << n << "x" << n << " took " << duration.count() << " seconds." << std::endl;
+}
+
+int main() {
+    std::vector<int> sizes = {1000, 3000, 5000};
+    std::vector<int> threads = {1, 2, 4, 6};
+
+    for (int numThreads : threads) {
+        omp_set_num_threads(numThreads);
+        std::cout << "Testing with " << numThreads << " threads" << std::endl;
+
+        for (int size : sizes) {
+            TestCholesky(size);
+        }
+        std::cout << std::endl;
+    }
+
+    return 0;
 }
