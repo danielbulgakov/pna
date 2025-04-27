@@ -1,0 +1,9 @@
+\babel@toc {russian}{}\relax 
+\contentsline {section}{\numberline {1}Введение}{3}{section.1}%
+\contentsline {section}{\numberline {2}Постановка задачи}{4}{section.2}%
+\contentsline {section}{\numberline {3}Последовательный алгоритм}{5}{section.3}%
+\contentsline {section}{\numberline {4}Параллельный алгоритм}{7}{section.4}%
+\contentsline {section}{\numberline {5}Результаты}{9}{section.5}%
+\contentsline {section}{\numberline {6}Заключение}{10}{section.6}%
+\contentsline {section}{\numberline {7}Список литературы}{11}{section.7}%
+\contentsline {section}{\numberline {8}Приложение}{12}{section.8}%

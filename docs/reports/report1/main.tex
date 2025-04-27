@@ -1,0 +1,406 @@
+% =============================================================================
+% Compile parameters
+% =============================================================================
+
+\documentclass[12pt, russian]{extarticle}
+\usepackage[T2A]{fontenc}
+\usepackage{fontspec}
+\usepackage{amsmath,amsthm}
+\defaultfontfeatures{Ligatures={TeX},Renderer=Basic}
+\setmainfont[Ligatures={TeX,Historic}]{Times New Roman}
+\usepackage[a4paper,
+left=25mm,
+right=15mm,
+top=20mm,
+bottom=20mm]{geometry}
+\usepackage[linktoc=all]{hyperref}
+\usepackage{titlesec}
+\titlelabel{\thetitle.\quad}
+\usepackage{tocloft}
+
+% Remove \bfseries from section titles in ToC
+\renewcommand{\cftsecfont}{}
+% Remove \bfseries from section titles' page in ToC
+\renewcommand{\cftsecpagefont}{}
+\renewcommand{\cftsecaftersnum}{.}
+\usepackage{titlesec}
+
+% Change font size for types
+\titleformat*{\section}{\large\bfseries}
+\titleformat*{\subsection}{\large\bfseries}
+\titleformat*{\subsubsection}{\large\bfseries}
+
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{0.4cm}
+\font\subtitlefont=cmr12 at 12pt
+\font\titlefont=cmr12 at 24pt
+\usepackage{color}
+\usepackage{mathtools}
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{tocloft}
+\usepackage{indentfirst}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage[russian]{babel}
+\usepackage{setspace}
+\setlength{\marginparwidth}{2cm}
+\usepackage{todonotes}
+\usepackage{tikz}
+\usepackage{pdfpages}
+\usetikzlibrary{shapes, arrows, positioning}
+\renewcommand{\contentsname}{}
+\renewcommand{\cftsecleader}{\cftdotfill{\cftdotsep}}
+\graphicspath{ {./resources/} }
+
+\usepackage{listings}
+\usepackage{float}
+
+\lstset{
+    numbers=left,                   % where to put the line-numbers
+    numberstyle=\small \ttfamily \color[rgb]{0.4,0.4,0.4},
+                % style used for the linenumbers
+    showspaces=false,               % show spaces adding special underscores
+    showstringspaces=false,         % underline spaces within strings
+    showtabs=false,                 % show tabs within strings adding particular underscores
+    frame=lines,                    % add a frame around the code
+    tabsize=4,                        % default tabsize: 4 spaces
+    breaklines=true,                % automatic line breaking
+    breakatwhitespace=false,        % automatic breaks should only happen at whitespace
+    basicstyle=\ttfamily,
+    %identifierstyle=\color[rgb]{0.3,0.133,0.133},   % colors in variables and function names, if desired.
+    keywordstyle=\color[rgb]{0.133,0.133,0.6},
+    commentstyle=\color[rgb]{0.133,0.545,0.133},
+    stringstyle=\color[rgb]{0.627,0.126,0.941},
+}
+
+% =============================================================================
+% Useful 
+% =============================================================================
+
+% insert code
+% \lstinputlisting[language=Python]{./resources/classification.py}
+
+
+% insert image
+% \begin{figure}[H]
+%     \centering
+%     \includegraphics[scale=0.6]{resources/2.png}
+% \end{figure}
+
+% =============================================================================
+% End of compile parameters
+% =============================================================================
+
+\title{}
+\author{}
+\date{}
+
+\begin{document}
+
+% =============================================================================
+% Global titlepage
+% =============================================================================
+
+\begin{titlepage}
+
+    \begin{center}
+        МИНИСТЕРСТВО НАУКИ И ВЫСШЕГО ОБРАЗОВАНИЯ РОССИЙСКОЙ ФЕДЕРАЦИИ \\
+        Федеральное государственное автономное образовательное учреждение \\
+        высшего образования \\
+        \textbf{
+            «Национальный исследовательский \\
+            Нижегородский государственный университет им. Н.И. Лобачевского»\\ (ННГУ)
+        }
+    \bigbreak
+
+    \vspace{2em}
+        \textbf{
+            Институт информационных технологий, математики и механики
+            \bigbreak
+            Кафедра: математического обеспечения и суперкомпьютерных технологий
+        }
+
+        Направление подготовки: «Программная инженерия» \\
+        Профиль подготовки: «Технологии цифровой трансформации»
+
+        \bigbreak
+        \bigbreak
+        \bigbreak
+
+        \textbf{ОТЧЕТ} \\
+        по предмету \\
+        \textbf{
+        ``Параллельные численные методы''}
+        \bigbreak
+
+    \end{center}
+
+    \vspace{5em}
+
+    \begin{flushright}
+        {\bfseries Выполнил:} студент группы \\ 3824М1ПР1 Д.Э. Булгаков\\
+        \hfill Подпись \hspace{5em} \newline \\
+        {\bfseries Проверил:} д.т.н., доц.,\\ К.А.Баркалов \\
+        \hfill Подпись \hspace{5em} \newline \\
+    \end{flushright}
+
+
+    \vspace{\fill}
+
+    \begin{center}
+        Нижний Новгород\\2025
+    \end{center}
+
+\end{titlepage}
+
+% =============================================================================
+% Main content
+% =============================================================================
+
+% ========== Set global spacing ==========
+\begin{spacing}{1.5}
+
+% ========== Table of content ==========
+\tableofcontents
+\thispagestyle{empty}
+\newpage
+
+% Params to make the following text start with
+% its page number
+\pagestyle{plain}
+\setcounter{page}{3}
+
+
+\section{Введение}
+
+Разложе́ние Холе́цкого (метод квадратного корня) — представление симметричной положительно определённой матрицы \( A \) в виде
+\[
+A = LL^{T},
+\]
+где \( L \) — нижняя треугольная матрица со строго положительными элементами на диагонали. Иногда разложение записывается в эквивалентной форме:
+\[
+A = U^{T}U,
+\]
+где \( U = L^{T} \) — верхняя треугольная матрица.
+
+Разложение Холецкого всегда существует и единственно для любой симметричной положительно определённой матрицы.
+
+\newpage
+\section{Постановка задачи}
+
+Необходимо реализовать блочное разложение Холецкого для симметричной положительно определённой матрицы \( A \), то есть представить её в виде произведения:
+\[
+A = LL^{T},
+\]
+где \( L \) — нижняя треугольная матрица со строго положительными элементами на диагонали.
+
+Требуется использовать технологии параллельного программирования с помощью OpenMP для повышения производительности.
+
+
+\newpage
+\section{Последовательный алгоритм}
+
+\subsection*{Шаги алгоритма}
+
+Пусть матрица \( A \) имеет размерность \( n \times n \), и необходимо найти нижнюю треугольную матрицу \( L \), для чего выполняются следующие шаги:
+
+\begin{enumerate}
+\item
+\textbf{Инициализация:} Создаём матрицу \( L \) размерности \( n \times n \), инициализируя все её элементы нулями. Элементы на диагонали будут вычисляться как положительные числа, а элементы под диагональю — как значения, соответствующие разложению.
+
+
+\item
+\textbf{Цикл по строкам и столбцам:} Основной цикл состоит из двух вложенных:
+   \begin{itemize}
+       \item Внешний цикл перебирает строки матрицы \( A \) и вычисляет элементы матрицы \( L \).
+       \item Внутренний цикл вычисляет элементы \( L \) в каждой строке, используя формулы разложения Холецкого.
+   \end{itemize}
+   
+   Для каждого элемента \( L_{i,j} \), где \( i \geq j \), вычисление происходит по следующей формуле:
+   \[
+   L_{i,j} = \sqrt{A_{i,j} - \sum_{k=1}^{j-1} L_{i,k} L_{j,k}},
+   \]
+   если \( i = j \) (элементы на диагонали), или
+   \[
+   L_{i,j} = \frac{1}{L_{j,j}} \left( A_{i,j} - \sum_{k=1}^{j-1} L_{i,k} L_{j,k} \right),
+   \]
+   если \( i > j \) (элементы ниже диагонали).
+
+\item
+\textbf{Построение матрицы \( L \):} После вычисления всех элементов матрицы \( L \), мы получаем её как результат разложения Холецкого. После этого матрица \( L \) может быть использована для проверки, путём вычисления \( LL^T \), и сравнения с исходной матрицей \( A \).
+
+\item
+\textbf{Завершение:} Алгоритм завершается после вычисления всех элементов матрицы \( L \).
+
+\end{enumerate}
+
+\subsection*{Время выполнения}
+
+Время выполнения этого алгоритма в последовательной версии имеет сложность \( O(n^3) \), что обусловлено необходимостью вычисления каждого элемента матрицы \( L \) через сумму по всем предыдущим элементам строки и столбца. Это приводит к тройному вложенному циклу, где каждый цикл выполняется \( n \) раз.
+
+\[
+T_{\text{seq}} = O(n^3).
+\]
+
+\newpage
+\section{Параллельный алгоритм}
+
+\section*{Параллельный алгоритм разложения Холецкого}
+
+Для распараллеливания алгоритма разложения Холецкого  применяется блочное разложение.
+
+\subsection*{Алгоритм}
+
+\begin{enumerate}
+\item
+\textbf{Инициализация матрицы \( L \)}. На первом шаге происходит инициализация всех элементов матрицы \( L \) значениями нулей. Это выполняется параллельно для всех элементов матрицы:
+\begin{verbatim}
+#pragma omp parallel for collapse(2)
+for (int i = 0; i < n; ++i)
+    for (int j = 0; j < n; ++j)
+        L[i * n + j] = 0.0;
+\end{verbatim}
+
+\item
+\textbf{Обработка блоков матрицы}. Основной цикл алгоритма выполняет обработку матрицы по блокам. Каждый блок размером \( B \times B \) обрабатывается отдельно, начиная с диагональных элементов:
+\begin{verbatim}
+for (int k = 0; k < n; k += blockSize) {
+    int end = std::min(k + blockSize, n);
+\end{verbatim}
+
+\begin{enumerate}
+\item 
+\textbf{Вычисление диагональных элементов} для каждого блока:
+\begin{verbatim}
+for (int i = k; i < end; ++i) {
+    double sum = 0.0;
+    for (int p = 0; p < i; ++p)
+        sum += L[i * n + p] * L[i * n + p];
+    L[i * n + i] = std::sqrt(A[i * n + i] - sum);
+}
+\end{verbatim}
+
+\item
+\textbf{Вычисление элементов нижней треугольной части блока}:
+\begin{verbatim}
+for (int j = i + 1; j < end; ++j) {
+    double sum = 0.0;
+    for (int p = 0; p < i; ++p)
+        sum += L[j * n + p] * L[i * n + p];
+    L[j * n + i] = (A[j * n + i] - sum) / L[i * n + i];
+}
+\end{verbatim}
+
+\item
+\textbf{Обновление оставшихся блоков}:
+Обновление правого блока (верхняя часть матрицы \( A \), которая не была обработана в первом цикле):
+\begin{verbatim}
+#pragma omp parallel for
+for (int i = end; i < n; ++i) {
+    for (int j = k; j < end; ++j) {
+        double sum = 0.0;
+        for (int p = 0; p < j; ++p)
+            sum += L[i * n + p] * L[j * n + p];
+        L[i * n + j] = (A[i * n + j] - sum) / L[j * n + j];
+    }
+}
+\end{verbatim}
+
+\end{enumerate}
+
+\end{enumerate}
+
+\subsection*{Оценка сложности}
+
+Параллельный алгоритм имеет теоретическую сложность \( O\left(\frac{n^3}{p}\right) \), где \( p \) — количество потоков, используемых в OpenMP. Эта оценка предполагает идеальную масштабируемость, что, однако, редко наблюдается на практике из-за накладных расходов на создание и синхронизацию потоков.
+
+
+\newpage
+\section{Результаты}
+
+Алгоритм был реализован на языке C++ с использованием библиотеки OpenMP для параллельных вычислений. Для проверки корректности параллельного алгоритма была использована случайно сгенерированная положительно определенная матрица. Результаты работы программы для различных размеров матриц и количества потоков приведены ниже.
+
+Далее для тестов использовались случайно сгенерированные матрицы. Размер блока выбран 32. Время выполнения в секундах.
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Потоки/Размерность} & \textbf{1000x1000} & \textbf{3000x3000} & \textbf{5000x5000} \\
+\hline
+1 & 0.4551 & 12.1241 & 56.6328 \\
+\hline
+2 & 0.2386 & 6.2803 & 28.8508 \\
+\hline
+4 & 0.1358 & 3.2617 & 14.8578 \\
+\hline
+6 & 0.0994 & 2.3387 & 10.5903 \\
+\hline
+\end{tabular}
+\caption{Время выполнения разложения Холецкого для разных размеров матриц и количества потоков}
+\label{tab:results}
+\end{table}
+
+
+\newpage
+\section{Заключение}
+
+В ходе выполнения работы был изучен алгоритм разложения Холецкого. На основе полученных знаний был реализован блочный алгоритм разложения Холецкого на языке C++ с использованием библиотеки OpenMP для параллельных вычислений.
+
+\newpage
+\section{Список литературы}
+
+\begin{enumerate}
+    \item Нестеренко, В. П., Рябов, А. В. \textit{Методы численного решения линейных систем.} – М.: Наука, 2009. – 512 с.
+    \item Чесноков, В. И. \textit{Параллельные вычисления. Теория и практика.} – М.: МЦНМО, 2017. – 304 с.
+    \item Папалексис, В. В., Ортега, Дж. \textit{Введение в параллельные методы решения линейных систем.} — М.: Мир, 1991. — 376 с.
+    \item OpenMP Architecture Review Board. \textit{OpenMP Application Programming Interface. Version 4.5.} – 2015. – Режим доступа:. – Загл. с экрана.
+\end{enumerate}
+
+
+\newpage
+\section{Приложение}
+
+\begin{verbatim}
+void Cholesky_Decomposition(double* A, double* L, int n) {
+    int blockSize = 32;
+
+    #pragma omp parallel for collapse(2)
+    for (int i = 0; i < n; ++i)
+        for (int j = 0; j < n; ++j)
+            L[i * n + j] = 0.0;
+
+    for (int k = 0; k < n; k += blockSize) {
+        int end = std::min(k + blockSize, n);
+
+        for (int i = k; i < end; ++i) {
+            double sum = 0.0;
+            for (int p = 0; p < i; ++p)
+                sum += L[i * n + p] * L[i * n + p];
+            L[i * n + i] = std::sqrt(A[i * n + i] - sum);
+
+            for (int j = i + 1; j < end; ++j) {
+                sum = 0.0;
+                for (int p = 0; p < i; ++p)
+                    sum += L[j * n + p] * L[i * n + p];
+                L[j * n + i] = (A[j * n + i] - sum) / L[i * n + i];
+            }
+        }
+
+        #pragma omp parallel for collapse(2)
+        for (int i = end; i < n; ++i) {
+            for (int j = k; j < end; ++j) {
+                double sum = 0.0;
+                for (int p = 0; p < j; ++p)
+                    sum += L[i * n + p] * L[j * n + p];
+                L[i * n + j] = (A[i * n + j] - sum) / L[j * n + j];
+            }
+        }
+    }
+}
+\end{verbatim}
+
+\end{spacing}
+\end{document}
